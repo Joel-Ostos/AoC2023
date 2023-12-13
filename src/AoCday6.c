@@ -89,6 +89,6 @@ void day2()
 }
 int main(void)
 {
-  //day1();
-  day2();
+  day1();
+  //day2();
 }
