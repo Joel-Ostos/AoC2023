@@ -218,9 +218,18 @@
     size_t occupied;							\
     bool state;								\
   };									\
+  void check_##type(type* ptr, size_t num)				\
+  {									\
+    if (!ptr){								\
+      perror("Error -> ");						\
+      exit(num);							\
+    }									\
+    return;								\
+  }									\
   ArrayList_##type init_array_##type(size_t initial_size)		\
   {									\
-    type* arr = (type*) malloc(sizeof(type)*initial_size+1);		\
+    type* arr = (type*) malloc(sizeof(type)*initial_size);		\
+    check_##type(arr,11);						\
     return (ArrayList_##type) {						\
       .array = arr,							\
       .capacity = initial_size,						\
@@ -245,7 +254,9 @@
 	array->occupied += 1;						\
 	return;								\
       }									\
-      array->array = (type*) realloc(array->array,(array->capacity + 1) * sizeof(type)); \
+      type* new = (type*) malloc(sizeof(type) * (array->capacity+1));	\
+      check_##type(new,2);						\
+      array->array = memcpy(new, array->array, sizeof(type) * array->capacity); \
       array->array[array->occupied] = data;				\
       array->occupied += 1;						\
       array->capacity += 1;						\
@@ -257,6 +268,7 @@
       return;								\
     }									\
     type* new = (type*) malloc(sizeof(type) * (array->capacity+1));	\
+    check_##type(new,3);						\
     array->array = memcpy(new, array->array, sizeof(type) * array->capacity); \
     array->array[array->occupied] = data;				\
     array->occupied += 1;						\
@@ -336,6 +348,57 @@
       return;								\
     }									\
   }									\
+
+#define queue(type)						\
+  typedef struct Queue_##type Queue_##type;			\
+  struct Queue_##type {						\
+    type* array;						\
+    size_t size;						\
+    size_t occupied;						\
+  };								\
+  Queue_##type init_Queue_##type()				\
+  {								\
+    return (Queue_##type) {					\
+      .array = NULL,						\
+      .size = 0,						\
+      .occupied = 0,						\
+    };								\
+  }								\
+  void Queue_##type##_push(Queue_##type* st, type data)		\
+  {								\
+    if (st->size == 0){						\
+      type* arr = (type*) malloc(sizeof(type)*1);		\
+      st->array = arr;						\
+      st->array[st->occupied] = data;				\
+      st->size += 1;						\
+      st->occupied += 1;					\
+      return;							\
+    }								\
+    type* tmp = realloc(st->array, sizeof(type)*(st->size+1));	\
+    st->array = tmp;						\
+    st->array[st->occupied] = data;					\
+    st->occupied+=1;						\
+    st->size+=1;						\
+  }									\
+  type Queue_##type##_pop(Queue_##type* st)				\
+  {									\
+    type tmp = st->array[0];						\
+    type* new = (type*)malloc(sizeof(type)*(st->size-1));		\
+    memcpy(new, st->array+1, sizeof(type)*(st->size-1));		\
+    free(st->array);							\
+    st->array = new;							\
+    st->occupied-=1;							\
+    st->size-=1;							\
+    return tmp;								\
+  }									\
+  bool Queue_##type##_empty(Queue_##type* st)				\
+  {									\
+    if (st->size == 0) {						\
+      return true;							\
+    }									\
+    return false;							\
+  }									\
+
 
 #endif
 // TODO on line 105: Design Decision, Bitacora TODO (1)

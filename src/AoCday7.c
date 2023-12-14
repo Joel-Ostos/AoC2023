@@ -97,13 +97,13 @@ int evaluate(tupla* tmp)
 
 void day1()
 {
-  ArrayList_tupla diff = init_array_tupla(300);
-  ArrayList_tupla one = init_array_tupla(300);
-  ArrayList_tupla two = init_array_tupla(300);
-  ArrayList_tupla three = init_array_tupla(300);
-  ArrayList_tupla four = init_array_tupla(300);
-  ArrayList_tupla five = init_array_tupla(300);
-  ArrayList_tupla full = init_array_tupla(300);
+  ArrayList_tupla diff = init_array_tupla(1);
+  ArrayList_tupla one = init_array_tupla(1);
+  ArrayList_tupla two = init_array_tupla(1);
+  ArrayList_tupla three = init_array_tupla(1);
+  ArrayList_tupla four = init_array_tupla(1);
+  ArrayList_tupla five = init_array_tupla(1);
+  ArrayList_tupla full = init_array_tupla(1);
   for (size_t i = 0; i < CASES; i++) {
     tupla tmp;
     scanf("%s", tmp.str);
@@ -168,6 +168,7 @@ void day1()
   for (size_t i = 0; i < three.occupied; i++) {
     mul += three.array[i].num * (index);
     printf("\n%d   %s", three.array[i].num, three.array[i].str);
+    printf("\n------------%d   %s------------------", three.array[64].num, three.array[64].str);
     index+=1;
   }
   for (size_t i = 0; i < full.occupied; i++) {
