@@ -20,6 +20,7 @@ typedef struct tupla {
 queue(tupla)
 
 int movs_S1[4] = {1,-1,0,0}, movs_S2[4] = {0,0,1,-1};
+
 void day1()
 {
   ArrayList_ArrayList_char map = init_array_ArrayList_char(ROWS);
